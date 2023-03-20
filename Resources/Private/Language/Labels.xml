@@ -183,6 +183,7 @@
             <label index="config.fileGrpImages">Page fileGrps: comma-separated list of @USE attribute values ordered by increasing size (default is "DEFAULT,MAX")</label>
             <label index="config.fileGrpThumbs">Thumbnail fileGrp: comma-separated list of @USE attribute values ordered by decreasing priority (default is "THUMBS")</label>
             <label index="config.fileGrpDownload">Download fileGrp: comma-separated list of @USE attribute values ordered by decreasing priority (default is "DOWNLOAD")</label>
+            <label index="config.fileGrpImageDownload">Image Download fileGrp: comma-separated list of @USE attribute values ordered by decreasing priority (default is "MAX,DEFAULT,MIN")</label>
             <label index="config.fileGrpFulltext">Fulltext fileGrp: comma-separated list of @USE attribute values ordered by decreasing priority (default is "FULLTEXT")</label>
             <label index="config.fileGrpAudio">Audio fileGrp: comma-separated list of @USE attribute values ordered by decreasing priority (default is "AUDIO")</label>
             <label index="config.indexAnnotations">Handle IIIF annotations with motivation "painting" as fulltext?: Handling annotations as fulltexts means they are indexed (default is "FALSE")</label>
@@ -393,6 +394,7 @@
             <label index="config.fileGrpImages">Seiten fileGrps: Komma-getrennte Liste der @USE Attributwerte der Seitenansichten nach aufsteigender Größe sortiert (Standard ist "DEFAULT,MAX")</label>
             <label index="config.fileGrpThumbs">Vorschau fileGrp: Komma-getrennte Liste der @USE Attributwerte der Vorschaubilder nach absteigender Priorität sortiert (Standard ist "THUMBS")</label>
             <label index="config.fileGrpDownload">Download fileGrp: Komma-getrennte Liste der @USE Attributwerte der Downloads nach absteigender Priorität sortiert (Standard ist "DOWNLOAD")</label>
+            <label index="config.fileGrpImageDownload">Image Download fileGrp: Komma-getrennte Liste der @USE Attributwerte der Image Downloads nach absteigender Priorität sortiert (Standard ist "MAX,DEFAULT,MIN")</label>
             <label index="config.fileGrpFulltext">Volltext fileGrp: Komma-getrennte Liste der @USE Attributwerte der Volltexte nach absteigender Priorität sortiert (Standard ist "FULLTEXT")</label>
             <label index="config.fileGrpAudio">Audio fileGrp: Komma-getrennte Liste der @USE Attributwerte der Audiodateien nach absteigender Priorität sortiert (Standard ist "AUDIO")</label>
             <label index="config.indexAnnotations">IIIF-Annotationen mit Motivation "painting" als Volltext behandeln?: Als Volltext behandelte Annotationen werden im Suchindex indexiert (Standard ist "FALSE")</label>

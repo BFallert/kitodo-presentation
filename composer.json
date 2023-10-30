@@ -20,7 +20,7 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/kitodo/kitodo-presentation/issues",
+    "issues": "https://github.com/bfallert/kitodo-presentation/issues",
     "source": "https://github.com/bfallert/kitodo-presentation",
     "docs": "https://docs.typo3.org/p/kitodo/presentation/main/en-us/"
   },

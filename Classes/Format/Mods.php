@@ -67,6 +67,7 @@ class Mods implements MetadataInterface
         $this->getHolders();
         $this->getPlaces();
         $this->getYears();
+        $this->getUrn();
 
         $metadata = $this->metadata;
     }
@@ -349,6 +350,21 @@ class Mods implements MetadataInterface
                     $this->metadata['year_sorting'][0] = intval($year_sorting);
                 }
             }
+        }
+    }
+
+    /**
+     * Get "urn".
+     *
+     * @access private
+     *
+     * @return void
+     */
+    private function getUrn(): void
+    {
+        $urn = $this->xml->xpath('./mods:identifier[@type="urn"]');
+        if (!empty($urn)) {
+            $this->metadata['urn'] = (string) $urn;
         }
     }
 }

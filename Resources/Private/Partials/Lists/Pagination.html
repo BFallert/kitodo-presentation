@@ -1,7 +1,6 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
     <ul class="pagination ubma">
         <f:comment><f:debug>{_all}</f:debug></f:comment>
-        <f:debug>{_all}</f:debug>
         <f:comment>show pagination only if pages > 1</f:comment>
         <f:if condition="{pagination.pages -> f:count()} > 1">
             <f:if condition="{pagination.previousPageNumber} && {pagination.previousPageNumber} >= {pagination.firstPageNumber}">
@@ -43,7 +42,9 @@
             </f:comment>
             <f:defaultCase>
                     <li class="{f:if(condition: '{page} == {paginator.currentPageNumber}', then:'current')}">
-                        <f:variable name="startRecordNumerInLoop" value="{paginator.publicItemsPerPage * page + 1}" />
+                        <f:variable name="startRecordNumerHelp" value="{paginator.publicItemsPerPage * page}" />
+                        <f:variable name="startRecordNumerHelpTwo" value="{startRecordNumerHelp + 1}" />
+                        <f:variable name="startRecordNumerInLoop" value="{startRecordNumerHelpTwo - paginator.publicItemsPerPage}" />
                         <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': startRecordNumerInLoop}" arguments="{searchParameter: lastSearch}">{page}</f:link.action>
                 </li>
             </f:defaultCase>

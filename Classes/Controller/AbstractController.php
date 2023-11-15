@@ -348,18 +348,94 @@ abstract class AbstractController extends ActionController implements LoggerAwar
      */
     protected function buildSimplePagination(PaginationInterface $pagination, PaginatorInterface $paginator): array
     {
-        $firstPage = $pagination->getFirstPageNumber();
-        $lastPage = $pagination->getLastPageNumber();
+        // detect which pagination is active
+        // ListView or GridView
+        if (get_class($pagination) == 'TYPO3\CMS\Core\Pagination\SimplePagination') {
+            //=========================================================
+            // ListView
+            //=========================================================
+            $firstPage = $pagination->getFirstPageNumber();
+            $lastPage = $pagination->getLastPageNumber();
+            
+            // for compatibility reasons
+            foreach (range($firstPage, $lastPage) as $i) {
+                $pages[$i] = array('nIndex' => $i, 'startRecordNumber' => $i);
+            };
 
-        return [
-            'lastPageNumber' => $lastPage,
-            'firstPageNumber' => $firstPage,
-            'nextPageNumber' => ($pagination->getNextPageNumber()),
-            'previousPageNumber' => $pagination->getPreviousPageNumber(),
-            'startRecordNumber' => $pagination->getStartRecordNumber(),
-            'endRecordNumber' => $pagination->getEndRecordNumber(),
-            'currentPageNumber' => $paginator->getCurrentPageNumber(),
-            'pages' => range($firstPage, $lastPage)
-        ];
+            // some variables doubled for compatibility reasons
+            return [
+                'lastPageNumber' => $lastPage,
+                'lastPageNumberG' => $lastPage,
+                'firstPageNumber' => $firstPage,
+                'nextPageNumber' => $pagination->getNextPageNumber(),
+                'nextPageNumberG' => $pagination->getNextPageNumber(),
+                'previousPageNumber' => $pagination->getPreviousPageNumber(),
+                'previousPageNumberG' => $pagination->getPreviousPageNumber(),
+                'startRecordNumber' => $pagination->getStartRecordNumber(),
+                'endRecordNumber' => $pagination->getEndRecordNumber(),
+                'currentPageNumber' => $paginator->getCurrentPageNumber(),
+                'pages' => range($firstPage, $lastPage),
+                'pagesG' => range($firstPage, $lastPage)
+            ];
+
+        } else {
+            //=========================================================
+            // GridView
+            //=========================================================
+
+            // to calculate the values for generation the links for the screen pages
+            $itemsPerPage = $pagination->getItemsPerPage();
+
+            $firstPage = $pagination->getFirstPageNumber();
+            $lastPage = $pagination->getLastPageNumber();
+
+            // last page as last value from $startRecordNumber
+            $lastStartRecordNumberGrid = 0;
+
+            $nextPageNumber;
+            $previousPageNumber;
+            $aktPageNumber = $paginator->getCurrentPageNumber();
+            
+            $pages = array();
+            // calculation of the values for the page links within the loop
+            // <f:for each="{pagination.pagesG}" as="page">
+            foreach (range($firstPage, $lastPage) as $i) {
+                // calculation of the startRecordNumber
+                $startRecordNumber = $itemsPerPage * $i;
+                $startRecordNumber = $startRecordNumber + 1;
+                $startRecordNumber = $startRecordNumber - $itemsPerPage;
+                
+                // save last startRecordNumer for LastPage button
+                $lastStartRecordNumberGrid = $startRecordNumber;
+                // array with nIndex as screen page number
+                // and startRecordNumer for correct structure of the link
+                //<f:link.action action="{action}" 
+                //      addQueryString="true" 
+                //      argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" 
+                //      additionalParams="{'tx_dlf[page]': page.startRecordNumber}" 
+                //      arguments="{searchParameter: lastSearch}">{page.nIndex}</f:link.action>
+                $pages[$i] = array('nIndex' => $i, 'startRecordNumber' => $startRecordNumber);
+            };
+            
+            $nextPageNumber = $pages[$aktPageNumber + 1]['startRecordNumber'];
+            $previousPageNumber = $pages[$aktPageNumber - 1]['startRecordNumber'];
+
+            // 'startRecordNumber' is not required in GridView, only the variant for each loop is required
+            // 'endRecordNumber' is not required in both views
+            return [
+                'lastPageNumber' => $lastPage,
+                'lastPageNumberG' => $lastStartRecordNumberGrid,
+                'firstPageNumber' => $firstPage,
+                'nextPageNumber' => $nextPageNumber,
+                'nextPageNumberG' => $paginator->getCurrentPageNumber() + 1,
+                'previousPageNumber' => $previousPageNumber,
+                'previousPageNumberG' => $paginator->getCurrentPageNumber() - 1,
+                'startRecordNumber' => $pagination->getStartRecordNumber(),
+                'endRecordNumber' => $pagination->getEndRecordNumber(),
+                'currentPageNumber' => $paginator->getCurrentPageNumber(),
+                'pages' => range($firstPage, $lastPage),
+                'pagesG' => $pages
+            ];
+        }
     }
 }

@@ -371,7 +371,7 @@ abstract class AbstractController extends ActionController implements LoggerAwar
             $nextPageNumber;
             $previousPageNumber;
             $aktPageNumber = $paginator->getCurrentPageNumber();
-            
+
             $pages = array();
             // calculation of the values for the page links within the loop
             // <f:for each="{pagination.pagesG}" as="page">
@@ -392,12 +392,76 @@ abstract class AbstractController extends ActionController implements LoggerAwar
                 //      arguments="{searchParameter: lastSearch}">{page.nIndex}</f:link.action>
                 $pages[$i] = array('nIndex' => $i, 'startRecordNumber' => $startRecordNumber);
             };
-            
+
+            $pagesSect = array();
+            $aRange = array();
+            $nRange = 5;
+
+            // lower limit of the range
+            $nBottom = $aktPageNumber - $nRange;
+            // upper limit of the range
+            $nTop = $aktPageNumber + $nRange;
+            // page range
+            for ($i = $nBottom; $i <= $nTop; $i++) {
+                if ($i > 0 and $i <= $lastPage) { 
+                    array_push($aRange, $i);
+                };
+            };
+
+
+            // check whether the first screen page is > 1, if yes then points must be added
+            if ($aRange[0] > 1) {
+                array_push($pagesSect, array('nIndex' => '...', 'startRecordNumber' => '...'));
+            };
+
+            // calculate values for page links within the loop
+            // but this time only max $nRange befor and after the current page
+            // <f:for each="{pagination.pagesG}" as="page">
+            foreach (range($firstPage, $lastPage) as $i) {
+                // calculate startRecordNumber
+                $startRecordNumber = $itemsPerPage * $i;
+                $startRecordNumber = $startRecordNumber + 1;
+                $startRecordNumber = $startRecordNumber - $itemsPerPage;
+                
+                // save last startRecordNumer for LastPage button
+                $lastStartRecordNumberGrid = $startRecordNumber;
+                // array with nIndex as screen page number
+                // and startRecordNumer for correct structure of the link
+                //<f:link.action action="{action}" 
+                //      addQueryString="true" 
+                //      argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" 
+                //      additionalParams="{'tx_dlf[page]': page.startRecordNumber}" 
+                //      arguments="{searchParameter: lastSearch}">{page.nIndex}</f:link.action>
+                // Check if screen page is in range
+                if (in_array($i, $aRange)) {
+                    array_push($pagesSect, array('nIndex' => $i, 'startRecordNumber' => $startRecordNumber));
+                };
+            };
+
+            // check whether the last element from $aRange <= last screen page, if yes then points must be added
+            if ($aRange[array_key_last($aRange)] < $lastPage) {
+                array_push($pagesSect, array('nIndex' => '...', 'startRecordNumber' => '...'));
+            };
+
+
             $nextPageNumber = $pages[$aktPageNumber + 1]['startRecordNumber'];
             $previousPageNumber = $pages[$aktPageNumber - 1]['startRecordNumber'];
 
             // 'startRecordNumber' is not required in GridView, only the variant for each loop is required
             // 'endRecordNumber' is not required in both views
+            //
+            // lastPageNumber       =>  last screen page
+            // lastPageNumber       =>  Document page to build the last screen page. This is the first document
+            //                          of the last block of 10 (or less) documents on the last screen page
+            // firstPageNumber      =>  always 1
+            // nextPageNumber       =>  Document to build the next screen page
+            // nextPageNumberG      =>  Number of the screen page for the next screen page
+            // previousPageNumber   =>  Document to build up the previous screen page
+            // previousPageNumberG  =>  Number of the screen page for the previous screen page
+            // currentPageNumber    =>  Number of the current screen page
+            // pagesG               =>  Array with two keys
+            //    nIndex            =>  Number of the screen page
+            //    startRecordNumber =>  First document of this block of 10 documents on the same screen page
             return [
                 'lastPageNumber' => $lastPage,
                 'lastPageNumberG' => $lastStartRecordNumberGrid,
@@ -410,7 +474,9 @@ abstract class AbstractController extends ActionController implements LoggerAwar
                 'endRecordNumber' => $pagination->getEndRecordNumber(),
                 'currentPageNumber' => $paginator->getCurrentPageNumber(),
                 'pages' => range($firstPage, $lastPage),
-                'pagesG' => $pages
+                'pagesG' => $pages,
+                'pagesTest' => $aRange,
+                'pagesR' => $pagesSect
             ];
         }
     }

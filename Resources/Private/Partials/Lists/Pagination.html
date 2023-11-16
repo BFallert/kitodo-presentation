@@ -26,7 +26,7 @@
             <li>…</li>
         </f:if>
         <f:comment>add pages between first and last page</f:comment>
-        <f:for each="{pagination.pagesG}" as="page">
+        <f:for each="{pagination.pagesR}" as="page">
             <f:comment><f:debug>{pagination}</f:debug></f:comment>
             <f:switch expression="{page.nIndex}">
                 <f:comment>If page 1 is not to be output twice, please remove the comment</f:comment>
@@ -42,9 +42,18 @@
                     </f:case>
                 </f:comment>
                 <f:defaultCase>
-                    <li class="{f:if(condition: '{page.nIndex} == {paginator.currentPageNumber}', then:'current')}">
-                        <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': page.startRecordNumber}" arguments="{searchParameter: lastSearch}">{page.nIndex}</f:link.action>
-                    </li>
+                    <f:switch expression="{page.nIndex}">
+                        <f:case value="...">
+                            <li class="dots">
+                                <span class="dots">...</span>
+                            </li>
+                        </f:case>
+                        <f:defaultCase>
+                            <li class="{f:if(condition: '{page.nIndex} == {paginator.currentPageNumber}', then:'current')}">
+                                <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': page.startRecordNumber}" arguments="{searchParameter: lastSearch}">{page.nIndex}</f:link.action>
+                            </li>
+                        </f:defaultCase>
+                    </f:switch>
                 </f:defaultCase>
             </f:switch>
         </f:for>

@@ -1,6 +1,7 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
     <ul class="pagination ubma">
         <f:comment><f:debug>{_all}</f:debug></f:comment>
+<f:debug>{_all}</f:debug>
         <f:comment>show pagination only if pages > 1</f:comment>
         <f:if condition="{pagination.pages -> f:count()} > 1">
             <f:if condition="{pagination.previousPageNumberG} && {pagination.previousPageNumberG} >= {pagination.firstPageNumber}">
@@ -27,7 +28,7 @@
     <f:comment>add pages between first and last page</f:comment>
         <f:for each="{pagination.pagesR}" as="page">
             <f:comment><f:debug>{pagination}</f:debug></f:comment>
-            <f:switch expression="{page.nIndex}">
+            <f:switch expression="{page.label}">
             <f:comment>If page 1 is not to be output twice, please remove the comment</f:comment>
             <f:comment>
                 <f:case value="1">
@@ -41,15 +42,15 @@
                 </f:case>
             </f:comment>
             <f:defaultCase>
-                    <f:switch expression="{page.nIndex}">
+                    <f:switch expression="{page.label}">
                         <f:case value="...">
                             <li class="dots">
                                 <span class="dots">...</span>
                             </li>
                         </f:case>
                         <f:defaultCase>
-                    <li class="{f:if(condition: '{page.nIndex} == {paginator.currentPageNumber}', then:'current')}">
-                        <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': page.startRecordNumber}" arguments="{searchParameter: lastSearch}">{page.nIndex}</f:link.action>
+                            <li class="{f:if(condition: '{page.label} == {paginator.currentPageNumber}', then:'current')}">
+                                <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': page.startRecordNumber}" arguments="{searchParameter: lastSearch}">{page.label}</f:link.action>
                 </li>
             </f:defaultCase>
         </f:switch>

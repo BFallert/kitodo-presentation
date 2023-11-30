@@ -486,7 +486,7 @@ class CalendarController extends AbstractController
      *
      * @return array
      */
-    private function getIssuesFromDocuments(array $documents): array
+    private function getIssuesFromDocuments($documents): array
     {
         $issues = [];
 

@@ -156,13 +156,13 @@ var dlfViewerFullTextControl = function(map) {
      * @private
      */
     this.lastRenderedFeatures_ = undefined;
-    
+
     /**
      * @type {Array}
      * @private
      */
      this.positions = {};
-     
+
 
     /**
      * @type {dlfFulltextSegments}
@@ -235,7 +235,7 @@ var dlfViewerFullTextControl = function(map) {
             },
         this)
     };
-	
+
     // is emptied in PageView.js
     $('#tx-dlf-fulltextselection').text(this.dic['fulltext-loading']);
 
@@ -336,15 +336,25 @@ dlfViewerFullTextControl.prototype.addActiveBehaviourForSwitchOff = function() {
     }
 };
 
-/** 
+/**
+ * Recalculate position of text lines if full text container was resized
+ */
+dlfViewerFullTextControl.prototype.onResize = function() {
+    if (this.element != undefined && this.element.css('width') != this.lastHeight) {
+        this.lastHeight = this.element.css('width');
+        this.calculatePositions();
+    }
+};
+
+/**
  * Calculate positions of text lines for scrolling
  */
 dlfViewerFullTextControl.prototype.calculatePositions = function() {
     this.positions.length = 0;
-    
+
     let texts = $('#tx-dlf-fulltextselection').children('span.textline');
     let offset = $('#' + texts[0].id).position().top;
-    
+
     for(let text of texts) {
         let pos = $('#' + text.id).position().top;
         this.positions[text.id] = pos - offset;
@@ -438,6 +448,7 @@ dlfViewerFullTextControl.prototype.addHighlightEffect = function(textlineFeature
 
         if (targetElem.length > 0 && !targetElem.hasClass('highlight')) {
             targetElem.addClass('highlight');
+            this.onResize();
             setTimeout(this.scrollToText, 1000, targetElem, this.fullTextScrollElement, this.positions);
             hoverSourceTextline_.addFeature(textlineFeature);
         }

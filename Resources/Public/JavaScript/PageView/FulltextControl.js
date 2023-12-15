@@ -162,13 +162,13 @@ var dlfViewerFullTextControl = function(map) {
      * @private
      */
     this.lastRenderedFeatures_ = undefined;
+
     
-    /**
 
      * @private
      */
      this.positions = {};
-     
+
 
     /**
      * @type {Array}
@@ -248,7 +248,7 @@ var dlfViewerFullTextControl = function(map) {
             },
         this)
     };
-	
+
     // is emptied in PageView.js
     $('html').find(this.fullTextScrollElement).text(this.dic['fulltext-loading']);
 

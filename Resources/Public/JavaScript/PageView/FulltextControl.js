@@ -237,7 +237,7 @@ var dlfViewerFullTextControl = function(map) {
     };
 
     // is emptied in PageView.js
-    $('#tx-dlf-fulltextselection').text(this.dic['fulltext-loading']);
+    $(this.fullTextScrollElement).text(this.dic['fulltext-loading']);
 
     this.changeActiveBehaviour();
 };
@@ -352,7 +352,7 @@ dlfViewerFullTextControl.prototype.onResize = function() {
 dlfViewerFullTextControl.prototype.calculatePositions = function() {
     this.positions.length = 0;
 
-    let texts = $('#tx-dlf-fulltextselection').children('span.textline');
+    let texts = $(this.fullTextScrollElement).children('span.textline');
     let offset = $('#' + texts[0].id).position().top;
 
     for(let text of texts) {
@@ -531,8 +531,9 @@ dlfViewerFullTextControl.prototype.disableFulltextSelect = function() {
         .attr('title', this.dic['fulltext-on']);
     }
 
-    $('#tx-dlf-fulltextselection').removeClass(className);
-    $('#tx-dlf-fulltextselection').hide();
+    $(this.fullTextScrollElement).removeClass(className);
+    $(this.fullTextScrollElement).hide();
+
     $('body').removeClass(className);
 
 };
@@ -563,8 +564,8 @@ dlfViewerFullTextControl.prototype.enableFulltextSelect = function() {
         .attr('title', this.dic['fulltext-off']);
     }
 
-    $('#tx-dlf-fulltextselection').addClass(className);
-    $('#tx-dlf-fulltextselection').show();
+    $(this.fullTextScrollElement).addClass(className);
+    $(this.fullTextScrollElement).show();
     $('body').addClass(className);
 };
 
@@ -597,7 +598,13 @@ dlfViewerFullTextControl.prototype.showFulltext = function(features) {
         return;
     }
 
-    var target = document.getElementById('tx-dlf-fulltextselection');
+    // in getElementById no '#' is necessary / allowed at the beginning
+    // of the string. Therefor remove '#' if present
+    let fullTextScrollElementId = this.fullTextScrollElement;
+    if (fullTextScrollElementId.substr(0,1) === '#') {
+        fullTextScrollElementId = fullTextScrollElementId.substr(1);
+    }
+    var target = document.getElementById(fullTextScrollElementId);
     if (target !== null) {
         target.innerHTML = "";
         for (var feature of features) {

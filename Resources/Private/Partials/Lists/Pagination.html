@@ -40,8 +40,11 @@
                 </f:case>
             </f:comment>
             <f:defaultCase>
-                <li class="{f:if(condition: '{page.label} == {paginator.currentPageNumber}', then:'current')}">
-                    <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': page.startRecordNumber}" arguments="{searchParameter: lastSearch}">{page.label}</f:link.action>
+                    <li class="{f:if(condition: '{page} == {paginator.currentPageNumber}', then:'current', else:'else')}">
+                        <f:variable name="anzahl" value="{pagination.endRecordNumber - pagination.startRecordNumber + 1}" />
+                        <f:variable name="anzahlNext" value="{anzahl * page}" />
+                        <f:variable name="startNext" value="{anzahlNext + 1}" />
+                        <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': startNext}" arguments="{searchParameter: lastSearch}">{page}</f:link.action>
                 </li>
             </f:defaultCase>
         </f:switch>

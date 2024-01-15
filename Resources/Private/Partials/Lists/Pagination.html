@@ -49,7 +49,9 @@
                             </f:case>
                             <f:defaultCase>
                                 <li class="{f:if(condition: '{page.label} == {paginator.currentPageNumber}', then:'current')}">
-                                    <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': page.startRecordNumber}" arguments="{searchParameter: lastSearch}">{page.label}</f:link.action>
+                                    <f:comment>tx_dlf[id] add parameter id again, because it disappears with the current configuration
+                                        additionalParams="{'tx_dlf[page]': page.startRecordNumber, 'tx_dlf[id]': docUid }"</f:comment>
+                                    <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': page.startRecordNumber, 'tx_dlf[id]': docUid }" arguments="{searchParameter: lastSearch}">{page.label}</f:link.action>
                                 </li>
                             </f:defaultCase>
                         </f:switch>

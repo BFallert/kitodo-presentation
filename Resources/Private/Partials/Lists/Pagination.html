@@ -7,11 +7,23 @@
                 <f:then>
                     <li class="first">
                         <f:comment>tx_dlf[id] add parameter id again, because it disappears with the current configuration</f:comment>
-                        <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': 1, 'tx_dlf[id]': docUid }" arguments="{searchParameter: lastSearch}" title="{f:translate(key: 'firstPage')}">&#9664;</f:link.action>
+                        <f:link.action 
+                            action="{action}" 
+                            addQueryString="true" 
+                            argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" 
+                            additionalParams="{'tx_dlf[page]': 1, 'tx_dlf[id]': docUid, 'tx_dlf[pagegrid]': '1'}" 
+                            arguments="{searchParameter: lastSearch}" 
+                            title="{f:translate(key: 'firstPage')}">&#9664;</f:link.action>
                     </li>
                     <li class="previous">
                         <f:comment>tx_dlf[id] add parameter id again, because it disappears with the current configuration</f:comment>
-                        <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': pagination.previousPageNumber, 'tx_dlf[id]': docUid }" arguments="{searchParameter: lastSearch}" title="{f:translate(key: 'prevPage')}">&#9664;</f:link.action>
+                        <f:link.action 
+                            action="{action}" 
+                            addQueryString="true" 
+                            argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" 
+                            additionalParams="{'tx_dlf[page]': pagination.previousPageNumber, 'tx_dlf[id]': docUid, 'tx_dlf[pagegrid]': '1' }" 
+                            arguments="{searchParameter: lastSearch}" 
+                            title="{f:translate(key: 'prevPage')}">&#9664;</f:link.action>
                     </li>
                 </f:then>
                 <f:else>
@@ -53,7 +65,11 @@
                                 <li class="{f:if(condition: '{page.label} == {paginator.currentPageNumber}', then:'current')}">
                                     <f:comment>tx_dlf[id] add parameter id again, because it disappears with the current configuration
                                         additionalParams="{'tx_dlf[page]': page.startRecordNumber, 'tx_dlf[id]': docUid }"</f:comment>
-                                    <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': page.startRecordNumber, 'tx_dlf[id]': docUid }" arguments="{searchParameter: lastSearch}">{page.label}</f:link.action>
+                                    <f:link.action action="{action}" 
+                                        addQueryString="true" 
+                                        argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" 
+                                        additionalParams="{'tx_dlf[page]': page.startRecordNumber, 'tx_dlf[id]': docUid, 'tx_dlf[pagegrid]': '1' }" 
+                                        arguments="{searchParameter: lastSearch}">{page.label}</f:link.action>
                                 </li>
                             </f:defaultCase>
                         </f:switch>
@@ -68,11 +84,25 @@
                 <f:then>
                     <li class="next">
                         <f:comment>tx_dlf[id] add parameter id again, because it disappears with the current configuration</f:comment>
-                        <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': pagination.nextPageNumber, 'tx_dlf[id]': docUid }" arguments="{searchParameter: lastSearch}" title="{f:translate(key: 'nextPage')}" noCacheHash="1">&#9654;</f:link.action>
+                        <f:link.action 
+                            action="{action}" 
+                            addQueryString="true" 
+                            argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" 
+                            additionalParams="{'tx_dlf[page]': pagination.nextPageNumber, 'tx_dlf[id]': docUid, 'tx_dlf[pagegrid]': '1' }" 
+                            arguments="{searchParameter: lastSearch}" 
+                            title="{f:translate(key: 'nextPage')}" 
+                            noCacheHash="1">&#9654;</f:link.action>
                     </li>
                     <li class="last">
                         <f:comment>tx_dlf[id] add parameter id again, because it disappears with the current configuration</f:comment>
-                        <f:link.action action="{action}" addQueryString="true" argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" additionalParams="{'tx_dlf[page]': pagination.lastPageNumberG, 'tx_dlf[id]': docUid }" arguments="{searchParameter: lastSearch}" title="{f:translate(key: 'lastPage')} ({pagination.lastPageNumber})" noCacheHash="1">&#9654;</f:link.action>
+                        <f:link.action 
+                            action="{action}" 
+                            addQueryString="true" 
+                            argumentsToBeExcludedFromQueryString="{0: 'tx_dlf[page]'}" 
+                            additionalParams="{'tx_dlf[page]': pagination.lastPageNumberG, 'tx_dlf[id]': docUid, 'tx_dlf[pagegrid]': '1' }" 
+                            arguments="{searchParameter: lastSearch}" 
+                            title="{f:translate(key: 'lastPage')} ({pagination.lastPageNumber})" 
+                            noCacheHash="1">&#9654;</f:link.action>
                     </li>
                 </f:then>
                 <f:else>

@@ -163,8 +163,8 @@ var dlfViewerFullTextControl = function(map) {
      */
     this.lastRenderedFeatures_ = undefined;
 
-    
 
+    /**
      * @private
      */
      this.positions = {};
